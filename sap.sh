@@ -60,8 +60,8 @@ quoted=$(printf '%s ' $input)
 sed -i "59s/^.*$/UUIDS=\"${quoted% }\"/" $HOME/sapsbx.sh
 
 echo
-echo "每个账号对应SAP应用名称空一格，回车则每个实例都自动生成，多个账号中有个别账号自动生成填no"
-read -p "选填！请输入SAP应用名称: " input
+echo "每个账号对应SAP应用程序名称APP空一格，回车则每个实例都自动生成，多个账号中有个别账号自动生成填no"
+read -p "选填！请输入SAP应用程序名称APP: " input
 if [ -z "$input" ]; then
 sed -i "62s/^.*$/APP_NAMES=\"\"/" $HOME/sapsbx.sh
 else
@@ -107,7 +107,7 @@ fi
 echo
 read -p "选填！请输入8:10-9:00点的保活时间间隔（单位:分钟，回车默认5分钟间隔）: " input
 if [ -z "$input" ]; then
-sed -i "74s/^.*$/crontime=3/" $HOME/sapsbx.sh
+sed -i "74s/^.*$/crontime=5/" $HOME/sapsbx.sh
 else
 sed -i "74s/^.*$/crontime=$input/" $HOME/sapsbx.sh
 fi
@@ -177,7 +177,7 @@ echo "*****************************************************"
 echo " 1. 安装脚本并添加/重置变量" 
 echo " 2. 手动测试执行一次"
 echo " 3. 查看最近一次自动执行日志"
-echo " 4. 指定删除已创建的应用程序"
+echo " 4. 删除已创建的应用程序名称APP"
 echo " 5. 卸载脚本"   
 echo " 0. 退出"
 read -p "请输入数字【0-5】:" Input 

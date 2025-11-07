@@ -58,7 +58,7 @@ REGIONS=""
 # 必填！每个账号对应UUID空一格
 UUIDS=""
 
-# 选填！每个账号对应名称空一格，不填则每个实例都自动生成，多个账号中有个别账号自动生成填no
+# 选填！每个账号对应的应用程序名称APP空一格，不填则每个实例都自动生成，多个账号中有个别账号自动生成填no
 APP_NAMES=""
 
 # 选填！当使用Argo固定/临时隧道时，此端口变量必填，每个账号对应端口空一格，不填则每个实例都不启用argo，多个账号中有个别账号不启用填no
@@ -105,8 +105,11 @@ pushout() {
   if echo "$push_out" | grep -iq "insufficient"; then
     echo "🔴第 $((i+1)) 个实例部署：${APP_NAME} 失败了，SAP资源被人抢光了，明早8:10-9:00再来吧，再见！！"
     return 1
+  elif echo "$push_out" | grep -q "mapped"; then
+    echo "🔴第 $((i+1)) 个实例部署：${APP_NAME} 失败了，请更换应用程序APP名称：${APP_NAME}，再运行一次"
+    return 1
   elif echo "$push_out" | grep -q "FAILED"; then
-    echo "🔴第 $((i+1)) 个实例部署：${APP_NAME} 失败了，SAP繁忙中！请自查参数设置是否有误，后台实例是否超配额"
+    echo "🔴第 $((i+1)) 个实例部署：${APP_NAME} 失败了，SAP繁忙中！请自查参数设置是否有误，空间是否被删除"
     return 1
   else
     echo "${APP_NAME} 完成"
@@ -126,11 +129,18 @@ sapcfevn() {
 }
 result() {
   ROUTE=$(cf app "$APP_NAME" | grep "routes:" | awk '{print $2}')
+  url="https://$ROUTE/$UUID"
+  if curl -s "$url" | grep -iq "requested"; then
+  echo "🔴 ${APP_NAME} SAP创建失败，SAP资源被人抢光了，明早8:10-9:00再来吧，再见！！"
+  return 1
+  else
   echo "🚀第 $((i+1)) 个实例部署成功"
   echo "🟢实例名称: $APP_NAME"
   echo "🟢服务器地区: $REGION"
   echo "🌐点击打开代理节点的链接网址🔗: https://$ROUTE/$UUID"
   echo
+  return 0
+  fi
 }
 for i in "${!CF_USERNAMES[@]}"; do
   set +e
