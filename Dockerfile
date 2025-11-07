@@ -28,7 +28,7 @@ ENV TUNNEL_DOMAIN=
 ENV TUNNEL_TOKEN=
 
 # 拷贝本地脚本和 supervisor 配置
-COPY argosb.sh /app/argosb.sh
+COPY argosbx.sh /app/argosbx.sh
 COPY argosb-supervisor.sh /app/argosb-supervisor.sh
 COPY supervisord.conf /etc/supervisord.conf
 
