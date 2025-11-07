@@ -32,6 +32,6 @@ COPY argosbx.sh /app/argosbx.sh
 COPY argosb-supervisor.sh /app/argosb-supervisor.sh
 COPY supervisord.conf /etc/supervisord.conf
 
-RUN chmod +x /app/argosb.sh /app/argosb-supervisor.sh
+RUN chmod +x /app/argosbx.sh /app/argosb-supervisor.sh
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
