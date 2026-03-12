@@ -14,9 +14,9 @@ function ensureModule(name) {
 const { WebSocket, createWebSocketStream } = require('ws');
 const subtxt = `${process.env.HOME}/agsbx/jh.txt`;
 const NAME = process.env.NAME || os.hostname();
-const PORT = process.env.PORT || 9002;
+const PORT = process.env.PORT || 3000;
 const uuid = process.env.uuid || '79411d85-b0dc-4cd2-b46c-01789a18c650';
-const DOMAIN = process.env.DOMAIN || 'YOUR-DOMAIN';
+const DOMAIN = process.env.DOMAIN || 'YOUR.DOMAIN';
 const vlessInfo = `vless://${uuid}@${DOMAIN}:443?encryption=none&security=tls&sni=${DOMAIN}&fp=chrome&type=ws&host=${DOMAIN}&path=%2F#Vl-ws-tls-${NAME}`;
 console.log(`vless-ws-tls节点分享: ${vlessInfo}`);
 
@@ -39,7 +39,7 @@ fs.chmod("start.sh", 0o777, (err) => {
 const server = http.createServer((req, res) => {
     if (req.url === '/') {
         res.writeHead(200, { 'Content-Type': 'text/plain; charset=utf-8' });
-        res.end('🟢恭喜！部署成功！\n\n查看节点信息路径：/你的uuid');
+        res.end('🟢恭喜！Argosbx小钢炮脚本-nodejs版部署成功！\n\n查看节点信息路径：/你的uuid');
         return;
     }
 
